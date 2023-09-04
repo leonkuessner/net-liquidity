@@ -1,12 +1,10 @@
 import pandas as pd
-from datetime import datetime as dt, date, time
-from dateutil.relativedelta import relativedelta
+from datetime import datetime as dt, date
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 from dash import Dash, html, dcc, callback, Output, Input, State, ctx
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeSwitchAIO
-from dash.dcc import Download
+from dash.exceptions import PreventUpdate
 
 import sys
 import os
@@ -42,7 +40,7 @@ app.layout = html.Div([
                 html.H3("Net Liquidity")
             ], width=5),
             dbc.Col([
-                html.H5("Leon Kuessner")
+                html.H5("LK")
             ], width=5, align="center", style={"text-align": "right"}),
             dbc.Col([
                 ThemeSwitchAIO(
@@ -67,13 +65,13 @@ app.layout = html.Div([
                     ],
                     value="spx"
                 )
-            ], width={"size": 8, "offset": 4}, className="radio-group")
+            ], width={"size": 8}, className="radio-group", style={"text-align": "center"})
         ], justify="center", style={"marginTop": 20, "marginBottom": 10}),
         dbc.Row([
             dbc.Col([
                 dbc.Button("Download Data", id="download_data_button"),
                 dcc.Download(id="download_df")
-            ], width={"size":4, "offset": 2}),
+            ], width={"size":4}, style={"text-align": "center"}),
         ], justify="center"),
         dbc.Row([
             dbc.Col([
@@ -107,6 +105,17 @@ app.layout = html.Div([
     dcc.Store(data=df.to_dict("records"), id="df_store")
 ])
 
+@callback(
+    Output("download_df", "data"),
+    Input("download_data_button", "n_clicks"),
+    State("df_store", "data"),
+    prevent_initial_call=True
+)
+def func(n_clicks, data):
+    if ctx.triggered_id != "download_data_button":
+        raise PreventUpdate
+    return dcc.send_data_frame(pd.DataFrame.from_dict(data).to_csv, f"net_liquidity_data_{dt.today().strftime('%d%b%y')}.csv")
+
 @app.callback(
     Output("main_figure", "figure"),
     Output("side_figure", "figure"),
@@ -132,7 +141,6 @@ def update_graph_theme(toggle, side_chart_radios, main_chart_radios, existing_si
         side_fig = side_fig.add_trace(go.Scatter(x=df.index, y=df[df.columns[0]]))
         side_fig = side_fig.update_layout(pcf.layout_dict,template=template, title=dict(text=side_chart_radios.upper(), x=0.5))
         return side_fig
-
     def main_fig_creator():
         new_df = nlc.updater(main_chart_radios)
         df_store = new_df.to_dict("records")
