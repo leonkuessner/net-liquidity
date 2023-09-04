@@ -17,7 +17,8 @@ CSV:
 
 ## Net Liquidity Explanation
 
-I found out about using net liquidity to predict the fair value of the S&P500 from https://twitter.com/dharmatrade and Michael Howell at https://twitter.com/crossbordercap 
+I found out about using net liquidity to predict the fair value of the S&P500 from https://twitter.com/dharmatrade and Michael Howell at https://twitter.com/crossbordercap
+
 A brief overview:
 - Since July 2020, more than the FFR or the Fed Balance Sheet, Liquidity is what really matters in the post-pandemic world. 
 - SPX fell into a near-perfect 95% inverse correlation with TGA balance

@@ -1,5 +1,6 @@
 
 layout_dict = dict(
+    height=650,
     xaxis=dict(
         zeroline=True,
     ),
