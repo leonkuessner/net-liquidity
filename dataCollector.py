@@ -23,6 +23,7 @@ class NetLiquidityCalculation:
 
         self.tga = self.get_tga()
         self.rrp = self.get_rrp()
+        self.rrp = self.rrp.loc[self.rrp["RRP"] != 0]
 
     @staticmethod
     def check_api(response, api_content):
@@ -68,8 +69,6 @@ class NetLiquidityCalculation:
         df.columns = ["RRP"]
         df.index = pd.to_datetime(df.index, format="%Y-%m-%d")
         return df.sort_index()
-
-
 
     def calculate_net_liquidity(self):
         df = self.rrp.join(self.walcl).join(self.tga).join(self.rem).join(self.spx)
