@@ -27,7 +27,7 @@ A brief overview:
 - Raising rates on Reverse Repo, providing a better alternative for low-duration risk
 
 The effects of this are:
-- $2 trillion in liquidity was suched in, with RRP increasing siz fold, which is all moeny unavailable to circulate in teh economy
+- $2 trillion in liquidity was sucked in, with RRP increasing six-fold, which is all money unavailable to circulate in the economy
 
 REM is the Federal Reserves operating losses (Earnings Remittances due to the US Treasury): https://fred.stlouisfed.org/series/RESPPLLOPNWW
 This gets us to the equation:
